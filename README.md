@@ -9,7 +9,8 @@ This package allows you to generate TS API files from `openapi.json` (Swagger 3)
 * Optional query parameters
 * Validation utilities
 * Change lists that highlight the changes it made after every run (like git when pulling)
-
+* Support for skipping certain api endpoint/models
+* Configuable indentation (replace tab by custom indents after generation)
 
 ## Example:
 
