@@ -1,9 +1,10 @@
 {
   "name": "swagger-ts-api-gen",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "lib/main.js",
   "license": "ISC",
+  "repository": "github:ferrybig/swagger-ts-api-gen",
   "directories": {
     "test": "test"
   },
@@ -19,13 +20,13 @@
   },
   "devDependencies": {
     "@types/node": "^12.7.11",
-    "fs": "0.0.1-security"
-  },
-  "dependencies": {
+    "fs": "0.0.1-security",
     "@types/cli": "^0.11.19",
-    "cli": "^1.0.1",
     "node-typescript": "^0.1.3",
     "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "cli": "^1.0.1"
   },
   "bin": {
     "swagger-ts-api-gen": "./lib/main.js"
