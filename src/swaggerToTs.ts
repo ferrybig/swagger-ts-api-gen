@@ -323,14 +323,14 @@ function makeCancelablePromise<T>(promise: Promise<T>, onCancel: () => void): Ca
 }
 
 export class FetchResponse<S extends number, R> {
-	status: S;
-	result: R;
-	url: Response['url'];
-	type: Response['type'];
-	headers: Response['headers'];
-	statusText: Response['statusText'];
-	redirected: Response['redirected'];
-	ok: S extends 200 ? true : S extends 201 ? true : S extends 204 ? true : false;
+	public status: S;
+	public result: R;
+	public url: Response['url'];
+	public type: Response['type'];
+	public headers: Response['headers'];
+	public statusText: Response['statusText'];
+	public redirected: Response['redirected'];
+	public ok: S extends 200 ? true : S extends 201 ? true : S extends 204 ? true : false;
 	public constructor(response: Response, status: S, result: R) {
 		this.status = status;
 		this.result = result;
@@ -342,14 +342,14 @@ export class FetchResponse<S extends number, R> {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		this.ok = (status === 200 || status === 201 || status === 204) as any;
 	}
-	expectSuccess(): S extends 200 ? R : S extends 201 ? R : S extends 204 ? R : never {
+	public expectSuccess(): S extends 200 ? R : S extends 201 ? R : S extends 204 ? R : never {
 		if (this.ok) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			return this.result as any;
 		}
 		throw new Error('Response was not OK');
 	}
-	expect<E extends S>(code: E | E[]): S extends E ? R : never {
+	public expect<E extends S>(code: E | E[]): S extends E ? R : never {
 		if (Array.isArray(code) ? (code as number[]).includes(this.status) : this.status === code) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			return this.result as any;
@@ -358,7 +358,7 @@ export class FetchResponse<S extends number, R> {
 	}
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
 function toJson(response: Response): Promise<any> {
 	return response.json();
 }
@@ -381,15 +381,15 @@ class HttpAuthentication<N extends string> implements Security<N, never> {
 	public readonly scope: never[] = [];
 	public readonly token: string;
 	public readonly schema: string;
-	constructor(name: N, token: string, schema: string) {
+	public constructor(name: N, token: string, schema: string) {
 		this.name = name
 		this.token = token;
 		this.schema = schema;
 	}
-	updateUrl(url: string): string {
+	public updateUrl(url: string): string {
 		return url;
 	}
-	updateHeaders(headers: Record<string, string>): Record<string, string> {
+	public updateHeaders(headers: Record<string, string>): Record<string, string> {
 		return {
 			...headers,
 			'Authentication': \`\${this.schema} \${this.token}\`,
@@ -403,13 +403,13 @@ class ApiKeyAuthentication<N extends string> implements Security<N, never> {
 	public readonly token: string;
 	public readonly key: string;
 	public readonly in: 'query' | 'header' | 'cookie';
-	constructor(name: N, inType: 'query' | 'header' | 'cookie', key: string, token: string) {
+	public constructor(name: N, inType: 'query' | 'header' | 'cookie', key: string, token: string) {
 		this.name = name
 		this.token = token;
 		this.in = inType;
 		this.key = key;
 	}
-	updateUrl(url: string): string {
+	public updateUrl(url: string): string {
 		if (this.in === 'query') {
 			const arg = \`\${encodeURIComponent(this.key)}=\${encodeURIComponent(this.token)}\`
 			if (url.includes('?')) {
@@ -420,7 +420,7 @@ class ApiKeyAuthentication<N extends string> implements Security<N, never> {
 		}
 		return url;
 	}
-	updateHeaders(headers: Record<string, string>): Record<string, string> {
+	public updateHeaders(headers: Record<string, string>): Record<string, string> {
 		if (this.in === 'header') {
 			return {
 				...headers,
@@ -455,7 +455,7 @@ function combinedSecurity<S extends Record<string, ResolvedSecurity>>(sec: S): R
 				}
 				return url;
 			},
-			updateHeaders(headers) {
+			updateHeaders(headers): Record<string, string> {
 				for (const security of array) {
 					headers = security.updateHeaders(headers);
 				}
@@ -466,7 +466,9 @@ function combinedSecurity<S extends Record<string, ResolvedSecurity>>(sec: S): R
 }
 
 type ObjectValues<O> = O[keyof O];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Unpromisify<F extends (...args: any[]) => Promise<any>> = F extends (...args: []) => Promise<infer R> ? R : never;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ResponseMapToReturnType<R extends {[key: number]: (...args: any[]) => Promise<any>}> =
 	ObjectValues<{ [K in keyof R]: K extends number ? FetchResponse<K, Unpromisify<R[K]>> : never }>
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
