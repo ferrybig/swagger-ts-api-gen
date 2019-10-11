@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import fs from 'fs';
 import cli from 'cli';
 import swaggerToTS from './swaggerToTs';
