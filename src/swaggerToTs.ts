@@ -877,7 +877,7 @@ function makeOperationCode(path: string, method: string, definition: Operation, 
 	
 
 	if (!definition.responses) {
-		console.warn(`'responses' was missing from the swagger on route ${path}:${method}. This is a spec voilation!!`);
+		cli.error(`'responses' was missing from the swagger on route ${path}:${method}. This is a spec voilation!!`);
 		return '';
 	}
 	// Generate return type
