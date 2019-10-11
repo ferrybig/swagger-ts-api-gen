@@ -1,0 +1,36 @@
+{
+  "name": "swagger-ts-api-gen",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/main.js",
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "tsc",
+    "run": "node lib/main.js",
+    "build-run": "rm -f src/examples-example.ts && tsc && node lib/main.js -i examples/example.json -o src/examples-example.ts --debug client"
+  },
+  "author": {
+    "name": "Fernando",
+    "email": "mailmehere@ferrybig.me",
+    "url": "https://ferrybig.me/"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.11",
+    "fs": "0.0.1-security"
+  },
+  "dependencies": {
+    "@types/cli": "^0.11.19",
+    "cli": "^1.0.1",
+    "node-typescript": "^0.1.3",
+    "typescript": "^3.6.3"
+  },
+  "bin": {
+    "swagger-ts-api-gen": "./lib/main.js"
+  },
+  "files": [
+    "lib"
+  ]
+}
