@@ -491,8 +491,8 @@ function apiRequest<R extends {[key: number]: (response: Response) => Promise<an
 			throw new Error(\`Undocumented HTTP status code: \${status}\`);
 		}
 		return parser(response).then((decoded): ResponseMapToReturnType<R> => {
-			const result = new FetchResponse(response, decoded, status);
-			return result as unknown as ResponseMapToReturnType<R>;
+			const result = new FetchResponse(response, status, decoded);
+			return result as ResponseMapToReturnType<R>;
 		});
 	}), (): void => controller.abort());
 }
