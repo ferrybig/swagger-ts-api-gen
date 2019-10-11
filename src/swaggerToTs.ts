@@ -45,7 +45,7 @@ function indent(input: string, padding: string): string {
 }
 
 function escapeKey(input: string): string {
-	if (/^[a-z_]$/i.test(input[0]) && /^[a-z0-9_]+$/.test(input)) {
+	if ((/^[a-zA-Z_]$/i.test(input[0]) && /^[a-zA-Z0-9_]+$/.test(input)) || input.startsWith('[')) {
 		return input;
 	}
 	return `'${input.replace('\\', '\\\\').replace('\'', '\\\'')}'`;
