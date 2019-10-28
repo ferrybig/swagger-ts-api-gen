@@ -368,12 +368,12 @@ function toResponse(response: Response): Promise<Response> {
 }
 
 export interface ResolvedSecurity {
-	updateUrl(url: string): string,
-	updateHeaders(headers: Record<string, string>): Record<string, string>
+	updateUrl(url: string): string;
+	updateHeaders(headers: Record<string, string>): Record<string, string>;
 }
 export interface Security<N extends string, S extends string> extends ResolvedSecurity {
-	readonly name: N,
-	readonly scope: S[],
+	readonly name: N;
+	readonly scope: S[];
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 class HttpAuthentication<N extends string> implements Security<N, never> {
@@ -382,7 +382,7 @@ class HttpAuthentication<N extends string> implements Security<N, never> {
 	public readonly token: string;
 	public readonly schema: string;
 	public constructor(name: N, token: string, schema: string) {
-		this.name = name
+		this.name = name;
 		this.token = token;
 		this.schema = schema;
 	}
@@ -393,7 +393,7 @@ class HttpAuthentication<N extends string> implements Security<N, never> {
 		return {
 			...headers,
 			'Authentication': \`\${this.schema} \${this.token}\`,
-		}
+		};
 	}
 }
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -404,14 +404,14 @@ class ApiKeyAuthentication<N extends string> implements Security<N, never> {
 	public readonly key: string;
 	public readonly in: 'query' | 'header' | 'cookie';
 	public constructor(name: N, inType: 'query' | 'header' | 'cookie', key: string, token: string) {
-		this.name = name
+		this.name = name;
 		this.token = token;
 		this.in = inType;
 		this.key = key;
 	}
 	public updateUrl(url: string): string {
 		if (this.in === 'query') {
-			const arg = \`\${encodeURIComponent(this.key)}=\${encodeURIComponent(this.token)}\`
+			const arg = \`\${encodeURIComponent(this.key)}=\${encodeURIComponent(this.token)}\`;
 			if (url.includes('?')) {
 				return \`\${url}&\${arg}\`;
 			} else {
@@ -425,7 +425,7 @@ class ApiKeyAuthentication<N extends string> implements Security<N, never> {
 			return {
 				...headers,
 				[this.key]: this.token,
-			}
+			};
 		}
 		return headers;
 	}
@@ -437,8 +437,8 @@ const VoidSecurity: ResolvedSecurity = {
 	},
 	updateHeaders(headers): Record<string, string> {
 		return headers;
-	}
-}
+	},
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function combinedSecurity<S extends Record<string, ResolvedSecurity>>(sec: S): ResolvedSecurity {
@@ -460,7 +460,7 @@ function combinedSecurity<S extends Record<string, ResolvedSecurity>>(sec: S): R
 					headers = security.updateHeaders(headers);
 				}
 				return headers;
-			}
+			},
 		};
 	}
 }
@@ -1008,7 +1008,7 @@ function createSecurity(swagger: OpenApi): string {
 			}
 		}
 	}
-	output += '}\n';
+	output += '};\n';
 	return output;
 }
 
@@ -1018,7 +1018,7 @@ function createClass(swagger: OpenApi): string {
 	let output = '';
 	output += `/**
  * ${swagger.info.title} v${swagger.info.version}
- * 
+ *
  * ${swagger.info.description}\n`;
 	if (swagger.info.termsOfService) {
 		output += ` * Terms of service: ${swagger.info.termsOfService}\n`
