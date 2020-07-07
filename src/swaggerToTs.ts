@@ -823,7 +823,7 @@ function makeFunctionArguments(parameters: Parameter[], requestBody: RequestBody
 				break;
 			case 'multipart/form-data':
 				result.hasClientBody = true;
-				result.body = 'const body = new FormData();\n';
+				result.body += 'const body = new FormData();\n';
 				result.body += `for (const [key, value] of Object.entries(${REQUEST_BODY_NAME})) {\n`;
 				result.body += '\tif (value !== null) {\n';
 				result.body += '\t\tbody.append(key, value);\n';
@@ -876,7 +876,7 @@ function makeOperationCode(path: string, method: string, definition: Operation, 
 		swaggerSecurity,
 		path
 	);
-	
+
 
 	if (!definition.responses) {
 		cli.error(`'responses' was missing from the swagger on route ${path}:${method}. This is a spec voilation!!`);
@@ -977,7 +977,7 @@ function createSecurity(swagger: OpenApi): string {
 					output += `\t * @return The newly generated security token\n`;
 					output += `\t */\n`;
 					output += `\t${escapeKey(name)}(token: string): Security<'${name}', never> {\n`
-					output += `\t\treturn new BearerAuthentication('${name}', token, '${security.scheme}');\n`
+					output += `\t\treturn new HttpAuthentication('${name}', token, '${security.scheme}');\n`
 					output += `\t},\n`;
 					break;
 				case 'apiKey':
