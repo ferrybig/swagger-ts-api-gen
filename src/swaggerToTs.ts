@@ -392,7 +392,7 @@ class HttpAuthentication<N extends string> implements Security<N, never> {
 	public updateHeaders(headers: Record<string, string>): Record<string, string> {
 		return {
 			...headers,
-			'Authentication': \`\${this.schema} \${this.token}\`,
+			'Authorization': \`\${this.schema} \${this.token}\`,
 		};
 	}
 }
@@ -955,6 +955,11 @@ function makeOperationCode(path: string, method: string, definition: Operation, 
 	output += '\n';
 	return output;
 }
+
+function mapHttpSecurityScheme(scheme: string): string {
+	return scheme === "bearer" ? "Bearer" : scheme;
+}
+
 function createSecurity(swagger: OpenApi): string {
 	cli.debug('Generating Security informations class...');
 	let output = 'export const SecurityProviders = {\n';
@@ -977,7 +982,7 @@ function createSecurity(swagger: OpenApi): string {
 					output += `\t * @return The newly generated security token\n`;
 					output += `\t */\n`;
 					output += `\t${escapeKey(name)}(token: string): Security<'${name}', never> {\n`
-					output += `\t\treturn new HttpAuthentication('${name}', token, '${security.scheme}');\n`
+					output += `\t\treturn new HttpAuthentication('${name}', token, '${mapHttpSecurityScheme(security.scheme)}');\n`
 					output += `\t},\n`;
 					break;
 				case 'apiKey':
