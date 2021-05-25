@@ -347,14 +347,19 @@ export class FetchResponse<S extends number, R> {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			return this.result as any;
 		}
-		throw new Error('Response was not OK');
+		const stringifiedResponse = JSON.stringify(this.result, null, 2);
+		throw new Error(\`Response was not OK.\\nResponse body:\\n\${stringifiedResponse}\`);
 	}
 	public expect<E extends S>(code: E | E[]): S extends E ? R : never {
 		if (Array.isArray(code) ? (code as number[]).includes(this.status) : this.status === code) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			return this.result as any;
 		}
-		throw new Error(\`Expected HTTP status code to be \${code}, but it was \${this.status}\`);
+		const stringifiedResponse = JSON.stringify(this.result, null, 2);
+		throw new Error(
+			\`Expected HTTP status code to be \${code}, but it was \${this.status}.\\n` +
+			`Response body:\\n\${stringifiedResponse}\`
+		);
 	}
 }
 
