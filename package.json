@@ -1,10 +1,10 @@
 {
   "name": "swagger-ts-api-gen",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "",
   "main": "lib/main.js",
   "license": "ISC",
-  "repository": "github:ferrybig/swagger-ts-api-gen",
+  "repository": "github:RoyalHaskoningDHV/swagger-ts-api-gen",
   "directories": {
     "test": "test"
   },
