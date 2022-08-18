@@ -452,7 +452,7 @@ function combinedSecurity<S extends Record<string, ResolvedSecurity>>(sec: S): R
 		case 0:
 			return VoidSecurity;
 		case 1:
-			return array[0];
+			return array[0]!;
 		default: return {
 			updateUrl(url): string {
 				for (const security of array) {
