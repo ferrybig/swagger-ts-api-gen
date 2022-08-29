@@ -508,8 +508,8 @@ interface Options {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function objectToQueryString(input: Record<string, string | number | null | undefined>): string {
-	const entries = Object.entries(input).filter((entry): entry is [string, string | number] => entry[1] !== null && entry[1] !== undefined);
+function objectToQueryString(input: Record<string, string | number | boolean | null | undefined>): string {
+	const entries = Object.entries(input).filter((entry): entry is [string, string | number | boolean] => entry[1] !== null && entry[1] !== undefined);
 	if (entries.length === 0) {
 		return '';
 	}
