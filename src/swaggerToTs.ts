@@ -514,7 +514,7 @@ function objectToQueryString(input: Record<string, string | number | boolean | n
 		return '';
 	}
 	return \`?\${entries
-		.map(([key, value]): string => \`\${${urlencode}(key)}=\${${urlencode}(value.toString())}\`).join()}\`;
+		.map(([key, value]): string => \`\${${urlencode}(key)}=\${${urlencode}(value.toString())}\`).join('&')}\`;
 }
 `;
 }
